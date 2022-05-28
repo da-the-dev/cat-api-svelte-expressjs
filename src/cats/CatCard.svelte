@@ -1,16 +1,15 @@
 <script lang="ts">
-  import { Cat } from "../interfaces/cat"
-  import Input from "./Input.svelte"
+  import { Cat } from '../interfaces/cat'
+  import Input from './Input.svelte'
 
   export let cat: Cat
 
   let editMenuEnabled = false
   let isEditing = false
   let hasEditingChanges = false
-  async function apiActHandler(action: "delete" | "edit") {
+  async function apiActHandler(action: 'add' | 'delete' | 'edit') {
     switch (action) {
-      case "delete":
-        console.log(await fetch("/apiv1/addcat"))
+      case 'add':
         break
     }
   }
@@ -52,9 +51,7 @@
       on:click="{() => (!hasEditingChanges ? (isEditing = !isEditing) : null)}"
       >Edit</button
     >
-    <button id="delete" on:click="{() => apiActHandler('delete')}"
-      >Delete</button
-    >
+    <button id="delete" on:click="{() => apiActHandler('add')}">Delete</button>
   </div>
 </div>
 

@@ -1,5 +1,11 @@
 <script lang="ts">
-  import CatGrid from "./cats/CatGrid.svelte"
+  import CatGrid from './cats/CatGrid.svelte'
+
+  import { form, field } from 'svelte-forms'
+  import { required, max } from 'svelte-forms/validators'
+
+  const name = field('name', '', [required(), max(10)])
+  const myForm = form(name)
 </script>
 
 <main>
@@ -16,6 +22,17 @@
   </p>
   <p>Copyright OLOLOLOLO 2022</p>
 </footer>
+
+<section>
+  <input type="text" bind:value="{$name.value}" />
+
+  {#if $myForm.hasError('name.required')}
+    <div>Name is required</div>
+  {/if}
+  {#if $myForm.hasError('name.max')}
+    <div>max is required</div>
+  {/if}
+</section>
 
 <style>
   main {

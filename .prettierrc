@@ -2,5 +2,14 @@
     "svelteStrictMode": true,
     "svelteIndentScriptAndStyle": true,
     "tabWidth": 2,
-    "semi": false
+    "semi": false,
+    "singleQuote": true,
+    "overrides": [
+        {
+            "files": "*.ts",
+            "options": {
+                "tabWidth": 4
+            }
+        }
+    ]
 }

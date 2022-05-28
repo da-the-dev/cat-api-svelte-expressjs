@@ -1,4 +1,4 @@
 export interface Cat {
-    name: string,
+    name: string
     age: number
 }
