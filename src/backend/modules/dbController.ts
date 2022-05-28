@@ -14,9 +14,11 @@ export default class DBController {
     }
 
     /** Connet to DB */
-    private con() {
-        if (!this.connected)
+    private async con() {
+        if (!this.connected) {
             this.client = new MongoClient(process.env.MONGODBURI!)
+            await this.client.connect()
+        }
     }
     /** Disconnect from DB */
     dis() {
@@ -28,8 +30,8 @@ export default class DBController {
     }
 
     /** Get the main collection */
-    col() {
-        this.con()
+    async col() {
+        await this.con()
         return this.client.db('catAPItest').collection('cats')
     }
 }

@@ -2,9 +2,8 @@ import express, { Router } from 'express'
 import cors from 'cors'
 import path from 'path'
 import bodyParser from 'body-parser'
-import { body, validationResult } from 'express-validator'
-import { Cat } from '../interfaces/cat'
-import DBController from './modules/dbController'
+import apiv1 from './api/v1'
+
 import * as dotenv from 'dotenv'
 dotenv.config()
 
@@ -18,22 +17,6 @@ app.use(
 app.use(bodyParser.json())
 app.use(cors())
 app.use(express.static('public'))
-
-const apiv1 = Router()
-
-apiv1.post(
-    '/addcat',
-    body('name').isString().isLength({ max: 5 }),
-    body('age').isInt({ gt: 0, lt: 100 }),
-    async (req, res) => {
-        const validationErrrors = validationResult(req)
-        if (!validationErrrors.isEmpty())
-            return res.status(400).json({ errors: validationErrrors.array() })
-        const cat = req.body as Cat
-        const db = DBController.getInstance()
-        console.log(await db.col().insertOne(cat))
-    }
-)
 
 app.use('/apiv1', apiv1)
 

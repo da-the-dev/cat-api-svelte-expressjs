@@ -32,17 +32,24 @@
   const catAge = field('catAge', '', [required(), min(1), max(100)], fieldCfg)
   const catForm = form(catName, catAge)
 
+  function disable() {
+    visible = false
+    editing = false
+  }
+
   async function handleSubmit() {
-    // console.log($catForm.summary)
     catForm.validate()
     if (!$catForm.valid) return
 
+    disable()
     const res = await addCat({
       name: $catName.value,
       age: parseInt($catAge.value),
     })
 
     console.log(await res.json())
+
+    console.log(visible, editing)
   }
 </script>
 

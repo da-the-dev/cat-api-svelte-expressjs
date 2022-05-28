@@ -23,17 +23,6 @@
   <p>Copyright OLOLOLOLO 2022</p>
 </footer>
 
-<section>
-  <input type="text" bind:value="{$name.value}" />
-
-  {#if $myForm.hasError('name.required')}
-    <div>Name is required</div>
-  {/if}
-  {#if $myForm.hasError('name.max')}
-    <div>max is required</div>
-  {/if}
-</section>
-
 <style>
   main {
     padding: 1rem;

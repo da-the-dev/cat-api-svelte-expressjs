@@ -2,13 +2,16 @@
   import { Cat } from '../interfaces/cat'
   import CatCard from './CatCard.svelte'
   import CatAddMenu from '../components/CatAddMenu.svelte'
+  import { onMount } from 'svelte'
+  import { getCats } from '../modules/apiController'
 
-  const cats: Cat[] = [
-    {
-      name: 'Emmy',
-      age: 10,
-    },
-  ]
+  export let cats: Cat[] = []
+
+  $: loadedCats = cats
+
+  onMount(async () => {
+    cats = await getCats()
+  })
 
   let catAddMenu: CatAddMenu
 </script>
@@ -20,7 +23,7 @@
       catAddMenu.show(e)
     }}"
   >
-    {#each cats as cat, i}
+    {#each loadedCats as cat, i}
       <CatCard cat="{cat}" />
     {/each}
   </div>
@@ -29,8 +32,11 @@
 
 <style>
   .catGrid {
-    text-align: center;
-    display: grid;
+    /* text-align: center; */
     justify-items: center;
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    grid-auto-rows: auto;
+    grid-gap: 1rem;
   }
 </style>

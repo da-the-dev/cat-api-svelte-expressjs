@@ -10,3 +10,8 @@ export async function addCat(cat: Cat) {
     const res = await fetch('/apiv1/addcat', req)
     return res
 }
+
+export async function getCats() {
+    const res = await fetch('/apiv1/cats')
+    return await res.json()
+}

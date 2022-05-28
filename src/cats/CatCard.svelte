@@ -7,12 +7,6 @@
   let editMenuEnabled = false
   let isEditing = false
   let hasEditingChanges = false
-  async function apiActHandler(action: 'add' | 'delete' | 'edit') {
-    switch (action) {
-      case 'add':
-        break
-    }
-  }
 
   function editCat(e) {
     e.preventDefault()
@@ -51,7 +45,7 @@
       on:click="{() => (!hasEditingChanges ? (isEditing = !isEditing) : null)}"
       >Edit</button
     >
-    <button id="delete" on:click="{() => apiActHandler('add')}">Delete</button>
+    <button id="delete" on:click="{() => {}}">Delete</button>
   </div>
 </div>
 
