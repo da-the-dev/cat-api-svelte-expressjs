@@ -1,0 +1,6 @@
+{
+    "svelteStrictMode": true,
+    "svelteIndentScriptAndStyle": true,
+    "tabWidth": 2,
+    "semi": false
+}
