@@ -3,7 +3,7 @@
   import { required, min, max } from 'svelte-forms/validators'
   import { Cat } from '../../interfaces/cat'
   import { addCat } from '../../modules/apiController'
-  import { isString } from '../../modules/formTools'
+  import { isName } from '../../modules/formTools'
 
   export let cat: Cat[]
   let visible = false
@@ -16,28 +16,25 @@
   }
 
   const fieldCfg = {
-    validateOnChange: true,
+    validateOnChange: false,
     stopAtFirstError: true,
   }
   const catName = field(
     'catName',
     '',
-    [required(), min(3), max(6), isString()],
+    [required(), min(3), max(6), isName()],
     fieldCfg
   )
   const catAge = field('catAge', '', [required(), min(1), max(100)], fieldCfg)
   const catForm = form(catName, catAge)
 
-  function disable() {
-    visible = false
-    editing = false
-  }
-
   async function handleSubmit() {
-    catForm.validate()
+    await catForm.validate()
+    console.log($catForm.errors)
     if (!$catForm.valid) return
 
-    disable()
+    visible = false
+    editing = false
     const res = await addCat({
       name: $catName.value,
       age: parseInt($catAge.value),
@@ -77,11 +74,18 @@
           type="text"
           name="catName"
           id="catName"
+          autocomplete="off"
         />
       </div>
+      {#if $catForm.hasError('catName.isName')}
+        <p>Cat's name must valid</p>{/if}
       {#if $catForm.hasError('catName.required')}
-        <p>Cat's name is required</p>
-      {/if}
+        <p>Cat's name is required</p>{/if}
+      {#if $catForm.hasError('catName.min')}
+        <p>Cat's name must be longer than 3 characters</p>{/if}
+      {#if $catForm.hasError('catName.max')}
+        <p>Cat's name must be shorter than 6 characters</p>{/if}
+
       <div>
         <label for="catAge">Age</label>
         <input
@@ -89,11 +93,16 @@
           type="number"
           name="catAge"
           id="catAge"
+          autocomplete="off"
         />
       </div>
       {#if $catForm.hasError('catAge.required')}
-        <p>Cat's age is required</p>
-      {/if}
+        <p>Cat's age is required</p>{/if}
+      {#if $catForm.hasError('catAge.min')}
+        <p>Cat's age must be more than 0</p>{/if}
+      {#if $catForm.hasError('catAge.max')}
+        <p>Cat's age must less than 100</p>{/if}
+
       <button class="btn" type="submit">Create a new cat</button>
     </form>
   {/if}

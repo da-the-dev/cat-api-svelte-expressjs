@@ -29,7 +29,8 @@
     text-align: center;
 
     min-height: 120%;
-    margin-bottom: -100px;
+    height: auto;
+    margin-bottom: 20%;
     /* background: #ddd; */
   }
   h1 {

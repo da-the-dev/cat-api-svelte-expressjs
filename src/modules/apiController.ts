@@ -15,3 +15,8 @@ export async function getCats() {
     const res = await fetch('/apiv1/cats')
     return await res.json()
 }
+
+export async function deleteCat(id) {
+    const res = await fetch(`/apiv1/deleteCat/${id}`, { method: 'DELETE' })
+    return res.status
+}

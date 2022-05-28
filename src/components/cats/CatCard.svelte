@@ -1,8 +1,11 @@
 <script lang="ts">
-  import { Cat } from '../../interfaces/cat'
+  import { Cat, DBCat } from '../../interfaces/cat'
+  import { deleteCat } from '../../modules/apiController'
   import Input from './Input.svelte'
 
+  export let cats: DBCat[]
   export let cat: Cat
+  export let dbId: number
 
   let editMenuEnabled = false
   let isEditing = false
@@ -17,9 +20,30 @@
     isEditing = false
     editMenuEnabled = false
   }
+
+  async function handleDelete() {
+    const res = await deleteCat(dbId)
+    if (res === 500) return
+
+    cats.splice(
+      cats.findIndex((c) => c._id === dbId),
+      1
+    )
+    cats = cats
+    editMenuEnabled = false
+    isEditing = false
+    hasEditingChanges = false
+  }
 </script>
 
-<div class="card" on:mouseleave="{() => (editMenuEnabled = false)}">
+<div
+  class="card"
+  on:mouseleave="{() => {
+    editMenuEnabled = false
+    isEditing = false
+    hasEditingChanges = false
+  }}"
+>
   <div
     class="catData"
     class:menuActive="{editMenuEnabled}"
@@ -45,7 +69,7 @@
       on:click="{() => (!hasEditingChanges ? (isEditing = !isEditing) : null)}"
       >Edit</button
     >
-    <button id="delete" on:click="{() => {}}">Delete</button>
+    <button id="delete" on:click="{handleDelete}">Delete</button>
   </div>
 </div>
 

@@ -1,11 +1,11 @@
 <script lang="ts">
-  import { Cat } from '../../interfaces/cat'
+  import { Cat, DBCat } from '../../interfaces/cat'
   import CatCard from './CatCard.svelte'
   import CatAddMenu from './CatAddMenu.svelte'
   import { onMount } from 'svelte'
   import { getCats } from '../../modules/apiController'
 
-  export let cats: Cat[] = []
+  export let cats: DBCat[] = []
 
   $: loadedCats = cats
 
@@ -24,7 +24,7 @@
     }}"
   >
     {#each loadedCats as cat, i}
-      <CatCard cat="{cat}" />
+      <CatCard bind:cats dbId="{cat._id}" cat="{cat}" />
     {/each}
   </div>
 
@@ -39,5 +39,6 @@
     grid-template-columns: repeat(6, 1fr);
     grid-auto-rows: auto;
     grid-gap: 1rem;
+    min-height: 100px;
   }
 </style>

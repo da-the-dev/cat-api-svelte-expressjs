@@ -4,6 +4,7 @@ import { Router } from 'express'
 import { body, validationResult } from 'express-validator'
 import DBController from '../modules/dbController'
 import { DBCat } from '../intefaces/cat'
+import { ObjectId } from 'mongodb'
 const api = Router()
 
 api.post(
@@ -26,6 +27,19 @@ api.get('/cats', async (req, res) => {
     const db = DBController.getInstance()
     const col = await db.col()
     res.send((await col.find().toArray()) as DBCat[])
+})
+
+api.delete('/deleteCat/:id', async (req, res) => {
+    console.log(req.params.id)
+    const db = DBController.getInstance()
+    const col = await db.col()
+    try {
+        await col.deleteOne({ _id: new ObjectId(req.params.id) })
+        res.sendStatus(200)
+    } catch (e) {
+        console.log(e)
+        res.sendStatus(500)
+    }
 })
 
 export default api
