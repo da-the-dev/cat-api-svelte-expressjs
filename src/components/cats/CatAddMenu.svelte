@@ -1,4 +1,11 @@
 <script lang="ts">
+  import { form, field } from 'svelte-forms'
+  import { required, min, max } from 'svelte-forms/validators'
+  import { Cat } from '../../interfaces/cat'
+  import { addCat } from '../../modules/apiController'
+  import { isString } from '../../modules/formTools'
+
+  export let cat: Cat[]
   let visible = false
   let editing = false
   let x: number, y: number
@@ -8,10 +15,6 @@
     y = e.clientY
   }
 
-  import { form, field } from 'svelte-forms'
-  import { required, min, max } from 'svelte-forms/validators'
-  import { addCat } from '../../modules/apiController'
-
   const fieldCfg = {
     validateOnChange: true,
     stopAtFirstError: true,
@@ -19,14 +22,7 @@
   const catName = field(
     'catName',
     '',
-    [
-      required(),
-      min(3),
-      max(6),
-      (val) => {
-        return { valid: typeof val === 'string', name: 'isString' }
-      },
-    ],
+    [required(), min(3), max(6), isString()],
     fieldCfg
   )
   const catAge = field('catAge', '', [required(), min(1), max(100)], fieldCfg)
@@ -46,22 +42,19 @@
       name: $catName.value,
       age: parseInt($catAge.value),
     })
-
-    console.log(await res.json())
-
-    console.log(visible, editing)
+    // Can't "push", variable must be updated via reassigning
+    cat = cat.concat(await res.json())
   }
 </script>
 
 <div
   style="z-index: 100000;position: fixed;"
   style:display="{visible ? 'block' : 'none'}"
-  style:top="{y - 10}px"
-  style:left="{x - 10}px"
+  style:top="{y - 20}px"
+  style:left="{x - 50}px"
   on:mouseleave="{() => {
     visible = false
     editing = false
-    catForm.reset()
   }}"
 >
   {#if !editing}
@@ -72,7 +65,11 @@
 
   {#if editing}
     <!-- svelte-ignore component-name-lowercase -->
-    <form on:submit|preventDefault="{handleSubmit}">
+    <form
+      style:top="{y - 50}px"
+      style:left="{x - 125}px"
+      on:submit|preventDefault="{handleSubmit}"
+    >
       <div>
         <label for="catName">Cat's name</label>
         <input
@@ -104,6 +101,7 @@
 
 <style>
   form {
+    position: fixed;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;

@@ -18,6 +18,7 @@ api.post(
         const db = DBController.getInstance()
         const col = await db.col()
         console.log(await col.insertOne(cat))
+        res.status(200).send(req.body)
     }
 )
 

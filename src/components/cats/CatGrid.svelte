@@ -27,7 +27,8 @@
       <CatCard cat="{cat}" />
     {/each}
   </div>
-  <CatAddMenu bind:this="{catAddMenu}" />
+
+  <CatAddMenu bind:cat="{cats}" bind:this="{catAddMenu}" />
 </main>
 
 <style>
