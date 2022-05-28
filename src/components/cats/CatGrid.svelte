@@ -1,9 +1,9 @@
 <script lang="ts">
-  import { Cat } from '../interfaces/cat'
+  import { Cat } from '../../interfaces/cat'
   import CatCard from './CatCard.svelte'
-  import CatAddMenu from '../components/CatAddMenu.svelte'
+  import CatAddMenu from './CatAddMenu.svelte'
   import { onMount } from 'svelte'
-  import { getCats } from '../modules/apiController'
+  import { getCats } from '../../modules/apiController'
 
   export let cats: Cat[] = []
 

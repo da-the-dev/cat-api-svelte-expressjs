@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Cat } from '../interfaces/cat'
+  import { Cat } from '../../interfaces/cat'
   import Input from './Input.svelte'
 
   export let cat: Cat

@@ -1,5 +1,5 @@
 <script lang="ts">
-  import CatGrid from './cats/CatGrid.svelte'
+  import CatGrid from './components/cats/CatGrid.svelte'
 
   import { form, field } from 'svelte-forms'
   import { required, max } from 'svelte-forms/validators'

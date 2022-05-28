@@ -10,7 +10,7 @@
 
   import { form, field } from 'svelte-forms'
   import { required, min, max } from 'svelte-forms/validators'
-  import { addCat } from '../modules/apiController'
+  import { addCat } from '../../modules/apiController'
 
   const fieldCfg = {
     validateOnChange: true,
@@ -148,7 +148,7 @@
     justify-items: center;
     padding: 0.5rem;
     margin: 0;
-    background-color: white;
+    /* background-color: white; */
 
     width: 5rem;
   }
