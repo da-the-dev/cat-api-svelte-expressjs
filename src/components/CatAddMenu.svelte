@@ -10,10 +10,40 @@
 
   import { form, field } from 'svelte-forms'
   import { required, min, max } from 'svelte-forms/validators'
+  import { addCat } from '../modules/apiController'
 
-  const catName = field('catName', '', [required(), min(3), max(6)])
-  const catAge = field('catAge', '', [required(), min(1), max(100)])
+  const fieldCfg = {
+    validateOnChange: true,
+    stopAtFirstError: true,
+  }
+  const catName = field(
+    'catName',
+    '',
+    [
+      required(),
+      min(3),
+      max(6),
+      (val) => {
+        return { valid: typeof val === 'string', name: 'isString' }
+      },
+    ],
+    fieldCfg
+  )
+  const catAge = field('catAge', '', [required(), min(1), max(100)], fieldCfg)
   const catForm = form(catName, catAge)
+
+  async function handleSubmit() {
+    // console.log($catForm.summary)
+    catForm.validate()
+    if (!$catForm.valid) return
+
+    const res = await addCat({
+      name: $catName.value,
+      age: parseInt($catAge.value),
+    })
+
+    console.log(await res.json())
+  }
 </script>
 
 <div
@@ -24,6 +54,7 @@
   on:mouseleave="{() => {
     visible = false
     editing = false
+    catForm.reset()
   }}"
 >
   {#if !editing}
@@ -34,12 +65,7 @@
 
   {#if editing}
     <!-- svelte-ignore component-name-lowercase -->
-    <form
-      on:submit|preventDefault="{() => {
-        catForm.validate()
-      }}"
-      method="post"
-    >
+    <form on:submit|preventDefault="{handleSubmit}">
       <div>
         <label for="catName">Cat's name</label>
         <input
@@ -91,7 +117,6 @@
     text-align: left;
   }
   form div {
-    /* padding: 0.5rem; */
     display: flex;
     align-items: center;
     flex-direction: row;

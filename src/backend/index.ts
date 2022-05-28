@@ -3,6 +3,11 @@ import cors from 'cors'
 import path from 'path'
 import bodyParser from 'body-parser'
 import { body, validationResult } from 'express-validator'
+import { Cat } from '../interfaces/cat'
+import DBController from './modules/dbController'
+import * as dotenv from 'dotenv'
+dotenv.config()
+
 const app = express()
 
 app.use(
@@ -20,12 +25,13 @@ apiv1.post(
     '/addcat',
     body('name').isString().isLength({ max: 5 }),
     body('age').isInt({ gt: 0, lt: 100 }),
-    (req, res) => {
+    async (req, res) => {
         const validationErrrors = validationResult(req)
         if (!validationErrrors.isEmpty())
             return res.status(400).json({ errors: validationErrrors.array() })
-        console.log(req.body)
-        res.sendStatus(200)
+        const cat = req.body as Cat
+        const db = DBController.getInstance()
+        console.log(await db.col().insertOne(cat))
     }
 )
 

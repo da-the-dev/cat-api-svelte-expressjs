@@ -11,6 +11,7 @@
         "strict": true,
         "module": "CommonJS",
         "esModuleInterop": true,
-        "skipLibCheck": true
+        "skipLibCheck": true,
+        "strictPropertyInitialization": false
     }
 }
