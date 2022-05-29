@@ -1,15 +1,39 @@
 <script lang="ts">
   import CatGrid from './components/cats/CatGrid.svelte'
   import CatAddMenu from './components/cats/CatAddMenu.svelte'
+  import { cats } from './stores/cats'
+  import { onMount } from 'svelte'
+  import { getCats } from './modules/apiController'
 
+  let dots = ''
   let catAddMenu: CatAddMenu
+
+  // Cool wa
+  onMount(async () => {
+    $cats = await getCats()
+
+    // Dots inteval
+    setInterval(
+      () =>
+        (dots =
+          dots.length == 3
+            ? (dots = '')
+            : (dots = '.'.repeat(dots.length + 1))),
+      1000
+    )
+  })
 </script>
 
 <main on:contextmenu|preventDefault="{(e) => catAddMenu.show(e)}">
   <h1>This is The Cat API</h1>
   <h2>And this is epic</h2>
 
-  <CatGrid />
+  {#if $cats.length > 0}
+    <CatGrid />
+  {:else}
+    <h1 class="message">It all starts with a right click{dots}</h1>
+  {/if}
+
   <CatAddMenu bind:this="{catAddMenu}" />
 </main>
 
@@ -38,6 +62,17 @@
   :global(html),
   :global(body) {
     padding: 0;
+  }
+
+  .message {
+    text-align: center;
+    color: grey;
+    opacity: 10%;
+    position: fixed;
+    /* top: 50%; */
+    width: 650;
+    margin-left: -325px;
+    left: 50%;
   }
 
   footer {
