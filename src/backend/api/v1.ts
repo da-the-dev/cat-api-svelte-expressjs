@@ -16,21 +16,31 @@ api.post(
         if (!validationErrrors.isEmpty())
             return res.status(400).json({ errors: validationErrrors.array() })
 
-        const db = DBController.getInstance()
-        const col = await db.col()
-        const doc = await col.insertOne(req.body as DBCat)
+        try {
+            const db = DBController.getInstance()
+            const col = await db.col()
+            const doc = await col.insertOne(req.body as DBCat)
 
-        res.status(200).send({
-            _id: doc.insertedId,
-            ...req.body,
-        })
+            res.status(200).send({
+                _id: doc.insertedId,
+                ...req.body,
+            })
+        } catch (e) {
+            console.log(e)
+            res.sendStatus(500)
+        }
     }
 )
 
 api.get('/cats', async (req, res) => {
     const db = DBController.getInstance()
     const col = await db.col()
-    res.send((await col.find().toArray()) as DBCat[])
+    try {
+        res.status(200).send((await col.find().toArray()) as DBCat[])
+    } catch (e) {
+        console.log(e)
+        res.send(500)
+    }
 })
 
 api.delete('/deleteCat/:id', async (req, res) => {
