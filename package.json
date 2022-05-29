@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "build": "rollup -c",
+    "build": "rollup -c && tsc -p tsconfig.backend.json",
     "dev": "rollup -c -w & tsc -w -p tsconfig.backend.json & nodemon -d 1 dist/backend/index.js",
-    "start": "sirv public --no-clear",
+    "start": "node dist/backend/index.js",
     "check": "svelte-check --tsconfig ./tsconfig.json"
   },
   "devDependencies": {
