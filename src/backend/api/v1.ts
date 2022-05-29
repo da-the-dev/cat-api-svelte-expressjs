@@ -9,7 +9,7 @@ const api = Router()
 
 api.post(
     '/addcat',
-    body('name').isString().isLength({ max: 5 }),
+    body('name').isString().isLength({ min: 3, max: 6 }),
     body('age').isInt({ gt: 0, lt: 100 }),
     async (req, res) => {
         const validationErrrors = validationResult(req)
