@@ -72,11 +72,12 @@
 
   <div class="editMenu" class:hidden="{!editMenuEnabled}">
     <button
+      class="btn"
       id="edit"
       on:click="{() => (!hasEditingChanges ? (isEditing = !isEditing) : null)}"
       >Edit</button
     >
-    <button id="delete" on:click="{handleDelete}">Delete</button>
+    <button class="btn" id="delete" on:click="{handleDelete}">Delete</button>
   </div>
 </div>
 
@@ -95,33 +96,9 @@
     display: none;
   }
   .editMenu button {
-    border: none;
-    width: 4rem;
-    padding: 0.5rem;
-    margin: 0;
     margin-bottom: 15%;
-    border-radius: 0.5rem;
-    font-weight: 700;
+  }
 
-    transition-duration: 0.1s;
-    transition-timing-function: cubic-bezier(0.445, 0.05, 0.55, 0.95);
-    user-select: none;
-  }
-  .editMenu button:hover {
-    cursor: pointer;
-    transform: scale(1.1, 1.1);
-    box-shadow: 0.15rem 0.15rem 0 0.15rem lightgrey;
-    border: none;
-  }
-  .editMenu button:active {
-    border: none;
-    transition-duration: 0;
-    transform: translate(0.15rem, 0.15rem) scale(1.1, 1.1);
-    box-shadow: 0.1rem 0.1rem 0 0.1rem lightgrey;
-  }
-  .editMenu button:focus {
-    background-color: red;
-  }
   .editMenu button#edit {
     background-color: orange;
     color: white;

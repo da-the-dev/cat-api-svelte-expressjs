@@ -50,10 +50,7 @@
     padding: 1rem;
     text-align: center;
 
-    min-height: 120%;
-    height: auto;
-    margin-bottom: 20%;
-    /* background: #ddd; */
+    min-height: 100%;
   }
   h1 {
     font-size: xxx-large;
@@ -64,25 +61,20 @@
     padding: 0;
   }
 
-  .message {
-    text-align: center;
-    color: grey;
-    opacity: 10%;
-    position: fixed;
-    /* top: 50%; */
-    width: 650;
-    margin-left: -325px;
-    left: 50%;
-  }
-
   footer {
+    padding: 1rem;
+    text-align: center;
+    height: 10%;
+    background: #eee;
+
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
-
+  }
+  .message {
     text-align: center;
-    height: 100px;
-    background: #eee;
+    color: grey;
+    opacity: 10%;
   }
 </style>
