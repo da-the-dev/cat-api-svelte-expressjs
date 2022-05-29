@@ -15,11 +15,15 @@ api.post(
         const validationErrrors = validationResult(req)
         if (!validationErrrors.isEmpty())
             return res.status(400).json({ errors: validationErrrors.array() })
-        const cat = req.body as DBCat
+
         const db = DBController.getInstance()
         const col = await db.col()
-        console.log(await col.insertOne(cat))
-        res.status(200).send(req.body)
+        const doc = await col.insertOne(req.body as DBCat)
+
+        res.status(200).send({
+            _id: doc.insertedId,
+            ...req.body,
+        })
     }
 )
 
@@ -30,7 +34,6 @@ api.get('/cats', async (req, res) => {
 })
 
 api.delete('/deleteCat/:id', async (req, res) => {
-    console.log(req.params.id)
     const db = DBController.getInstance()
     const col = await db.col()
     try {
