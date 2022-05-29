@@ -1,18 +1,16 @@
 <script lang="ts">
   import CatGrid from './components/cats/CatGrid.svelte'
+  import CatAddMenu from './components/cats/CatAddMenu.svelte'
 
-  import { form, field } from 'svelte-forms'
-  import { required, max } from 'svelte-forms/validators'
-
-  const name = field('name', '', [required(), max(10)])
-  const myForm = form(name)
+  let catAddMenu: CatAddMenu
 </script>
 
-<main>
+<main on:contextmenu|preventDefault="{(e) => catAddMenu.show(e)}">
   <h1>This is The Cat API</h1>
   <h2>And this is epic</h2>
 
   <CatGrid />
+  <CatAddMenu bind:this="{catAddMenu}" />
 </main>
 
 <footer>

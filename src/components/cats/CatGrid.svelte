@@ -1,39 +1,23 @@
 <script lang="ts">
-  import { Cat, DBCat } from '../../interfaces/cat'
   import CatCard from './CatCard.svelte'
-  import CatAddMenu from './CatAddMenu.svelte'
   import { onMount } from 'svelte'
   import { getCats } from '../../modules/apiController'
+  import { cats } from '../../stores/cats'
 
-  export let cats: DBCat[] = []
-
-  $: loadedCats = cats
-
-  onMount(async () => {
-    cats = await getCats()
-  })
-
-  let catAddMenu: CatAddMenu
+  // Updating cats on start
+  onMount(async () => ($cats = await getCats()))
 </script>
 
 <main>
-  <div
-    class="catGrid"
-    on:contextmenu|preventDefault="{(e) => {
-      catAddMenu.show(e)
-    }}"
-  >
-    {#each loadedCats as cat, i}
-      <CatCard bind:cats dbId="{cat._id}" cat="{cat}" />
+  <div class="catGrid">
+    {#each $cats as cat, i}
+      <CatCard dbId="{cat._id}" cat="{cat}" />
     {/each}
   </div>
-
-  <CatAddMenu bind:cat="{cats}" bind:this="{catAddMenu}" />
 </main>
 
 <style>
   .catGrid {
-    /* text-align: center; */
     justify-items: center;
     display: grid;
     grid-template-columns: repeat(6, 1fr);

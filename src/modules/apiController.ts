@@ -1,6 +1,5 @@
 import { Cat } from '../interfaces/cat'
 export async function addCat(cat: Cat) {
-    console.log('sending')
     const req = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

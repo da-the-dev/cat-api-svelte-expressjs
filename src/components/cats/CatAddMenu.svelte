@@ -1,20 +1,23 @@
 <script lang="ts">
   import { form, field } from 'svelte-forms'
   import { required, min, max } from 'svelte-forms/validators'
-  import { Cat } from '../../interfaces/cat'
   import { addCat } from '../../modules/apiController'
   import { isName } from '../../modules/formTools'
+  import { cats } from '../../stores/cats'
 
-  export let cat: Cat[]
+  // States of menu
   let visible = false
   let editing = false
   let x: number, y: number
+
+  /** Show to menu */
   export function show(e) {
     visible = !visible
     x = e.clientX
     y = e.clientY
   }
 
+  // Form init
   const fieldCfg = {
     validateOnChange: false,
     stopAtFirstError: true,
@@ -27,10 +30,9 @@
   )
   const catAge = field('catAge', '', [required(), min(1), max(100)], fieldCfg)
   const catForm = form(catName, catAge)
-
   async function handleSubmit() {
     await catForm.validate()
-    console.log($catForm.errors)
+
     if (!$catForm.valid) return
 
     visible = false
@@ -40,7 +42,7 @@
       age: parseInt($catAge.value),
     })
     // Can't "push", variable must be updated via reassigning
-    cat = cat.concat(await res.json())
+    $cats = $cats.concat(await res.json())
   }
 </script>
 

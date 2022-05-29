@@ -1,16 +1,20 @@
 <script lang="ts">
+  import { onDestroy } from 'svelte'
+
   import { Cat, DBCat } from '../../interfaces/cat'
   import { deleteCat } from '../../modules/apiController'
+  import { cats } from '../../stores/cats'
   import Input from './Input.svelte'
 
-  export let cats: DBCat[]
+  // Card data and states
   export let cat: Cat
   export let dbId: number
-
   let editMenuEnabled = false
   let isEditing = false
   let hasEditingChanges = false
 
+  /** Editing cat    
+  TODO: Rework forms */
   function editCat(e) {
     e.preventDefault()
     const formData = new FormData(e.target)
@@ -21,15 +25,18 @@
     editMenuEnabled = false
   }
 
+  /** Deletes a cat and disables all menus*/
   async function handleDelete() {
     const res = await deleteCat(dbId)
     if (res === 500) return
 
-    cats.splice(
-      cats.findIndex((c) => c._id === dbId),
+    $cats.splice(
+      $cats.findIndex((c) => c._id === dbId),
       1
     )
-    cats = cats
+    // Update cats
+    $cats = $cats
+
     editMenuEnabled = false
     isEditing = false
     hasEditingChanges = false
