@@ -11,7 +11,7 @@
 <main>
   <div class="catGrid">
     {#each $cats as cat, i}
-      <CatCard dbId="{cat._id}" cat="{cat}" />
+      <CatCard dbId="{cat._id}" bind:cat />
     {/each}
   </div>
 </main>
