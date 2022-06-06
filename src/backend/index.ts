@@ -1,8 +1,8 @@
-import express, { Router } from 'express'
+import express from 'express'
 import cors from 'cors'
 import path from 'path'
 import bodyParser from 'body-parser'
-import apiv1 from './api/v1'
+import apiv1 from './api/v1/v1'
 
 import * as dotenv from 'dotenv'
 dotenv.config()

@@ -1,4 +1,5 @@
 import { MongoClient } from 'mongodb'
+
 export default class DBController {
     static created = false
     static instance: DBController
