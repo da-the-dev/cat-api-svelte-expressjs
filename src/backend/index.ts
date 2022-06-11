@@ -3,9 +3,10 @@ import cors from 'cors'
 import path from 'path'
 import bodyParser from 'body-parser'
 import apiv1 from './api/v1/v1'
-
 import * as dotenv from 'dotenv'
 dotenv.config()
+
+const port = 8015 || process.env.PORT
 
 const app = express()
 
@@ -24,6 +25,6 @@ app.get('*', (req, res) => {
     res.sendFile(path.resolve(__dirname, 'public', 'index.html'))
 })
 
-app.listen(3000, () => {
+app.listen(port, () => {
     console.log('Ready')
 })
